@@ -38,8 +38,10 @@ public class MTUser extends User{
             }
             budget += newP.getPrice();
             entries.add(newP);
+         
         }
     }
+ 
 
     public String getMost(boolean mComORmSpent) {
         ArrayList<String> tempStr = new ArrayList<>();

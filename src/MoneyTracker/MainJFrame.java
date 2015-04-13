@@ -27,8 +27,8 @@ public class MainJFrame extends javax.swing.JFrame {
 
     public MainJFrame() {
         userManager = new UserManager();
-        //some stufff
         initComponents();
+        //zaizazai
     }
 
 
