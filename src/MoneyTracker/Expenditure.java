@@ -31,6 +31,7 @@ public class Expenditure extends Entry{
     }
     
     
+    @Override
     public String getType(){
         return " Expenditure:";
     }
