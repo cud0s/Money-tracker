@@ -23,13 +23,13 @@ public class MainJFrame extends javax.swing.JFrame {
      */
     private MTUser currUser;
     private final UserManager userManager;
-    private final DefaultListModel<String> defaultListModel = new DefaultListModel<>();
+    private final DefaultListModel<String> entryListModel = new DefaultListModel<>();
+    private final DefaultListModel<String> loansListModel = new DefaultListModel<>();
 
     public MainJFrame() {
         userManager = new UserManager();
         initComponents();
     }
-
 
     private void clearJTextFields(JPanel panel) {
         Component[] components = panel.getComponents();
@@ -50,7 +50,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void logout() {
         currUser = null;
-        defaultListModel.removeAllElements();
+        entryListModel.removeAllElements();
         CardLayout card = (CardLayout) getContentPane().getLayout();
         card.show(getContentPane(), "card1");
     }
@@ -60,29 +60,41 @@ public class MainJFrame extends javax.swing.JFrame {
         statsMostCom.setText(currUser.getMost(true));
         statsMostSpent.setText(currUser.getMost(false));
 
+        loansUsn.setText(currUser.getUsername());
+
         jLabel12.setText(Integer.toString(currUser.getBudget()));
         listPurchases();
     }
 
     private void listPurchases() {
         int totalUserEntr = currUser.getTotalEntries();
-        int difference = totalUserEntr-defaultListModel.size();
-        switch(difference){
-            case 1: 
-                defaultListModel.add(0, currUser.getEntryData(totalUserEntr-1));
+        int userCountDifference = totalUserEntr - entryListModel.size();
+        
+        String dataString; //will save string, containing "cost", "type" and "name" variables of an entry
+        
+        switch (userCountDifference) {
+            case 1:
+                dataString = currUser.getEntryData(totalUserEntr - 1);
+                entryListModel.add(0, dataString);
+                if (dataString.contains("Loan")) {
+                    loansListModel.add(0, dataString);
+                }
                 break;
             case 0:
                 break;
             default:
-                defaultListModel.removeAllElements();
-                for(int a=0; a<totalUserEntr;a++){
-                    defaultListModel.add(0, currUser.getEntryData(a));                
+                entryListModel.removeAllElements();
+                for (int a = 0; a < totalUserEntr; a++) {
+                    dataString = currUser.getEntryData(a);
+                    entryListModel.add(0, dataString);
+                    if (dataString.contains("Loan")) {
+                        loansListModel.add(0, dataString);
+                    }
                 }
                 break;
         }
     }
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -130,6 +142,7 @@ public class MainJFrame extends javax.swing.JFrame {
         pLogoutButton = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         pList = new javax.swing.JList();
+        addLoanCheckBox = new javax.swing.JCheckBox();
         stats = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         statsLogoutButton = new javax.swing.JButton();
@@ -147,13 +160,30 @@ public class MainJFrame extends javax.swing.JFrame {
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
         loansUsn = new javax.swing.JLabel();
-        loansMostCom = new javax.swing.JLabel();
-        loansMostSpent = new javax.swing.JLabel();
+        loansYearlyInterest = new javax.swing.JLabel();
+        loansMonthlyPayment = new javax.swing.JLabel();
+        loansTotalRemaining = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         loansList = new javax.swing.JList();
-        jLabel21 = new javax.swing.JLabel();
-        loansMostSpent1 = new javax.swing.JLabel();
+        loansAddButton = new javax.swing.JButton();
+        entryDetails = new javax.swing.JPanel();
+        jLabel22 = new javax.swing.JLabel();
+        detailsLogoutButton = new javax.swing.JButton();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
+        loansUsn1 = new javax.swing.JLabel();
+        loansYearlyInterest1 = new javax.swing.JLabel();
+        loansMonthlyPayment1 = new javax.swing.JLabel();
+        loansTotalRemaining1 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        detailsList = new javax.swing.JList();
+        detailsBackButton = new javax.swing.JButton();
+        jLabel27 = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.CardLayout());
@@ -186,7 +216,7 @@ public class MainJFrame extends javax.swing.JFrame {
         firstPanelLayout.setVerticalGroup(
             firstPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, firstPanelLayout.createSequentialGroup()
-                .addContainerGap(194, Short.MAX_VALUE)
+                .addContainerGap(239, Short.MAX_VALUE)
                 .addGroup(firstPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(regButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -271,7 +301,7 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addGroup(registrationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(regBackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(regContinueButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(69, Short.MAX_VALUE))
+                .addContainerGap(114, Short.MAX_VALUE))
         );
 
         regPassField.getAccessibleContext().setAccessibleName("");
@@ -345,21 +375,17 @@ public class MainJFrame extends javax.swing.JFrame {
 
         getContentPane().add(login, "card3");
 
-        purchases.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
         pName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pNameActionPerformed(evt);
             }
         });
-        purchases.add(pName, new org.netbeans.lib.awtextra.AbsoluteConstraints(174, 84, 170, 40));
 
         pPrice.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pPriceActionPerformed(evt);
             }
         });
-        purchases.add(pPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(174, 142, 170, 40));
 
         pAddButton.setText("Add");
         pAddButton.addActionListener(new java.awt.event.ActionListener() {
@@ -367,16 +393,12 @@ public class MainJFrame extends javax.swing.JFrame {
                 pAddButtonActionPerformed(evt);
             }
         });
-        purchases.add(pAddButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(57, 285, 170, 50));
 
         jLabel6.setText("Price:");
-        purchases.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(57, 152, -1, -1));
 
         jLabel7.setText("Name:");
-        purchases.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(57, 94, -1, -1));
 
         jLabel8.setText("Budget:");
-        purchases.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(57, 25, -1, 38));
 
         buttonGroup1.add(pExpenditure);
         pExpenditure.setText("Expenditure");
@@ -385,17 +407,18 @@ public class MainJFrame extends javax.swing.JFrame {
                 pExpenditureActionPerformed(evt);
             }
         });
-        purchases.add(pExpenditure, new org.netbeans.lib.awtextra.AbsoluteConstraints(57, 218, -1, -1));
 
         buttonGroup1.add(pIncome);
         pIncome.setText("Income");
-        purchases.add(pIncome, new org.netbeans.lib.awtextra.AbsoluteConstraints(259, 218, -1, -1));
+        pIncome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pIncomeActionPerformed(evt);
+            }
+        });
 
-        jLabel10.setText("Purchases:");
-        purchases.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(519, 25, -1, -1));
+        jLabel10.setText("Entries:");
 
         jLabel12.setText("jLabel12");
-        purchases.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(174, 25, 170, 38));
 
         pLogoutButton.setText("Log out");
         pLogoutButton.addActionListener(new java.awt.event.ActionListener() {
@@ -403,19 +426,94 @@ public class MainJFrame extends javax.swing.JFrame {
                 pLogoutButtonActionPerformed(evt);
             }
         });
-        purchases.add(pLogoutButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(57, 353, -1, -1));
 
-        pList.setModel(defaultListModel);
+        pList.setModel(entryListModel);
         jScrollPane3.setViewportView(pList);
 
-        purchases.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 80, 207, 250));
+        addLoanCheckBox.setText("Loan");
+        addLoanCheckBox.setVisible(false);
+        addLoanCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addLoanCheckBoxActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout purchasesLayout = new javax.swing.GroupLayout(purchases);
+        purchases.setLayout(purchasesLayout);
+        purchasesLayout.setHorizontalGroup(
+            purchasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(purchasesLayout.createSequentialGroup()
+                .addGap(57, 57, 57)
+                .addGroup(purchasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pLogoutButton)
+                    .addGroup(purchasesLayout.createSequentialGroup()
+                        .addGroup(purchasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(purchasesLayout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addGap(62, 62, 62)
+                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(purchasesLayout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addGap(70, 70, 70)
+                                .addComponent(pName, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(pAddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(purchasesLayout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(77, 77, 77)
+                                .addComponent(pPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(purchasesLayout.createSequentialGroup()
+                                .addComponent(pExpenditure)
+                                .addGap(85, 85, 85)
+                                .addGroup(purchasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(addLoanCheckBox)
+                                    .addComponent(pIncome))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 175, Short.MAX_VALUE)
+                        .addGroup(purchasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10))))
+                .addGap(66, 66, 66))
+        );
+        purchasesLayout.setVerticalGroup(
+            purchasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(purchasesLayout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addGroup(purchasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(purchasesLayout.createSequentialGroup()
+                        .addGroup(purchasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel8))
+                        .addGap(35, 35, 35)
+                        .addGroup(purchasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(purchasesLayout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel7))
+                            .addComponent(pName, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(26, 26, 26)
+                        .addGroup(purchasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(purchasesLayout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel6))
+                            .addComponent(pPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(35, 35, 35)
+                        .addGroup(purchasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pExpenditure)
+                            .addComponent(pIncome))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(addLoanCheckBox)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(pAddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(purchasesLayout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addGap(35, 35, 35)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(pLogoutButton)
+                .addGap(20, 20, 20))
+        );
 
         mainPane.addTab("Add purchase", purchases);
 
-        stats.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel11.setText("Purchases:");
-        stats.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(519, 25, -1, -1));
+        jLabel11.setText("Entries:");
 
         statsLogoutButton.setText("Log out");
         statsLogoutButton.addActionListener(new java.awt.event.ActionListener() {
@@ -423,34 +521,81 @@ public class MainJFrame extends javax.swing.JFrame {
                 statsLogoutButtonActionPerformed(evt);
             }
         });
-        stats.add(statsLogoutButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(57, 350, -1, -1));
 
         jLabel13.setText("Most common purchase:");
-        stats.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(57, 97, -1, -1));
 
         jLabel14.setText("Most money spent on:");
-        stats.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(57, 172, -1, -1));
 
         jLabel15.setText("Username:");
-        stats.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(57, 25, -1, -1));
 
         statsUsn.setText("jLabel16");
-        stats.add(statsUsn, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 25, -1, -1));
 
         statsMostCom.setText("jLabel17");
-        stats.add(statsMostCom, new org.netbeans.lib.awtextra.AbsoluteConstraints(249, 97, -1, -1));
 
         statsMostSpent.setText("jLabel18");
-        stats.add(statsMostSpent, new org.netbeans.lib.awtextra.AbsoluteConstraints(233, 172, -1, -1));
 
-        statsList.setModel(defaultListModel);
+        statsList.setModel(entryListModel);
         jScrollPane4.setViewportView(statsList);
 
-        stats.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(519, 82, 207, 250));
+        javax.swing.GroupLayout statsLayout = new javax.swing.GroupLayout(stats);
+        stats.setLayout(statsLayout);
+        statsLayout.setHorizontalGroup(
+            statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(statsLayout.createSequentialGroup()
+                .addGap(57, 57, 57)
+                .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(statsLayout.createSequentialGroup()
+                        .addComponent(jLabel15)
+                        .addGap(18, 18, 18)
+                        .addComponent(statsUsn))
+                    .addGroup(statsLayout.createSequentialGroup()
+                        .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel13)
+                            .addComponent(jLabel14))
+                        .addGap(2, 2, 2)
+                        .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(statsLayout.createSequentialGroup()
+                                .addGap(16, 16, 16)
+                                .addComponent(statsMostCom))
+                            .addComponent(statsMostSpent)))
+                    .addComponent(statsLogoutButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 210, Short.MAX_VALUE)
+                .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel11)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(66, 66, 66))
+        );
+        statsLayout.setVerticalGroup(
+            statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(statsLayout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(statsLayout.createSequentialGroup()
+                        .addComponent(jLabel11)
+                        .addGap(35, 35, 35)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(statsLayout.createSequentialGroup()
+                        .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel15)
+                            .addComponent(statsUsn))
+                        .addGap(45, 45, 45)
+                        .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(statsLayout.createSequentialGroup()
+                                .addComponent(jLabel13)
+                                .addGap(45, 45, 45)
+                                .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel14)
+                                    .addComponent(statsMostSpent)))
+                            .addComponent(statsMostCom))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 215, Short.MAX_VALUE)
+                        .addComponent(statsLogoutButton)))
+                .addGap(20, 20, 20))
+        );
 
         mainPane.addTab("View statistics", stats);
 
-        jLabel17.setText("Loan:");
+        jLabel17.setText("Loans:");
 
         loansLogoutButton.setText("Log out");
         loansLogoutButton.addActionListener(new java.awt.event.ActionListener() {
@@ -459,24 +604,31 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel18.setText("Total value:");
+        jLabel18.setText("Total remaining value:");
 
         jLabel19.setText("Monthly payment:");
 
         jLabel20.setText("Username:");
 
-        loansUsn.setText("jLabel16");
-
-        loansMostCom.setText("jLabel17");
-
-        loansMostSpent.setText("jLabel18");
-
-        loansList.setModel(defaultListModel);
-        jScrollPane2.setViewportView(loansList);
-
         jLabel21.setText("Yearly interest:");
 
-        loansMostSpent1.setText("jLabel18");
+        loansUsn.setText("jLabel16");
+
+        loansYearlyInterest.setText("empty");
+
+        loansMonthlyPayment.setText("empty");
+
+        loansTotalRemaining.setText("empty");
+
+        loansList.setModel(loansListModel);
+        jScrollPane2.setViewportView(loansList);
+
+        loansAddButton.setText("Add");
+        loansAddButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loansAddButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout loansLayout = new javax.swing.GroupLayout(loans);
         loans.setLayout(loansLayout);
@@ -488,57 +640,173 @@ public class MainJFrame extends javax.swing.JFrame {
                     .addGroup(loansLayout.createSequentialGroup()
                         .addComponent(jLabel20)
                         .addGap(18, 18, 18)
-                        .addComponent(loansUsn)
-                        .addGap(307, 307, 307)
-                        .addComponent(jLabel17))
+                        .addComponent(loansUsn))
+                    .addComponent(loansAddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(loansLayout.createSequentialGroup()
-                        .addGroup(loansLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(loansLayout.createSequentialGroup()
-                                .addComponent(jLabel18)
-                                .addGap(18, 18, 18)
-                                .addComponent(loansMostCom))
-                            .addGroup(loansLayout.createSequentialGroup()
-                                .addComponent(jLabel21)
-                                .addGap(18, 18, 18)
-                                .addComponent(loansMostSpent))
-                            .addGroup(loansLayout.createSequentialGroup()
-                                .addComponent(jLabel19)
-                                .addGap(18, 18, 18)
-                                .addComponent(loansMostSpent1)))
-                        .addGap(256, 256, 256)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(loansLogoutButton)))
+                        .addComponent(jLabel19)
+                        .addGap(18, 18, 18)
+                        .addComponent(loansMonthlyPayment))
+                    .addGroup(loansLayout.createSequentialGroup()
+                        .addComponent(jLabel21)
+                        .addGap(18, 18, 18)
+                        .addComponent(loansYearlyInterest))
+                    .addGroup(loansLayout.createSequentialGroup()
+                        .addComponent(jLabel18)
+                        .addGap(18, 18, 18)
+                        .addComponent(loansTotalRemaining))
+                    .addComponent(loansLogoutButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 240, Short.MAX_VALUE)
+                .addGroup(loansLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loansLayout.createSequentialGroup()
+                        .addComponent(jLabel17)
+                        .addGap(226, 226, 226))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loansLayout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(66, 66, 66))))
         );
         loansLayout.setVerticalGroup(
             loansLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(loansLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(35, 35, 35)
                 .addGroup(loansLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(loansLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel20)
-                        .addComponent(loansUsn))
-                    .addComponent(jLabel17))
-                .addGap(37, 37, 37)
-                .addGroup(loansLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(loansLayout.createSequentialGroup()
-                        .addGap(15, 15, 15)
                         .addGroup(loansLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel18)
-                            .addComponent(loansMostCom))
-                        .addGap(55, 55, 55)
+                            .addComponent(jLabel20)
+                            .addComponent(loansUsn))
+                        .addGap(35, 35, 35)
                         .addGroup(loansLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel21)
-                            .addComponent(loansMostSpent))
-                        .addGap(55, 55, 55)
+                            .addComponent(loansYearlyInterest))
+                        .addGap(35, 35, 35)
                         .addGroup(loansLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel19)
-                            .addComponent(loansMostSpent1))))
-                .addGap(21, 21, 21)
-                .addComponent(loansLogoutButton))
+                            .addComponent(loansMonthlyPayment))
+                        .addGap(35, 35, 35)
+                        .addGroup(loansLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel18)
+                            .addComponent(loansTotalRemaining))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
+                        .addComponent(loansAddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(loansLayout.createSequentialGroup()
+                        .addComponent(jLabel17)
+                        .addGap(35, 35, 35)
+                        .addComponent(jScrollPane2)))
+                .addGap(18, 18, 18)
+                .addComponent(loansLogoutButton)
+                .addGap(20, 20, 20))
         );
 
         mainPane.addTab("Loans", loans);
+
+        jLabel22.setText("Entries:");
+
+        detailsLogoutButton.setText("Log out");
+        detailsLogoutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                detailsLogoutButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel23.setText("Protein:");
+
+        jLabel24.setText("Carbohydrates:");
+
+        jLabel25.setText("Item name:");
+
+        jLabel26.setText("Calories:");
+
+        loansUsn1.setText("jLabel16");
+
+        loansYearlyInterest1.setText("empty");
+
+        loansMonthlyPayment1.setText("empty");
+
+        loansTotalRemaining1.setText("empty");
+
+        detailsList.setModel(entryListModel);
+        jScrollPane5.setViewportView(detailsList);
+
+        detailsBackButton.setText("Back");
+        detailsBackButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                detailsBackButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel27.setText("Fat:");
+
+        jLabel28.setText("empty");
+
+        javax.swing.GroupLayout entryDetailsLayout = new javax.swing.GroupLayout(entryDetails);
+        entryDetails.setLayout(entryDetailsLayout);
+        entryDetailsLayout.setHorizontalGroup(
+            entryDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(entryDetailsLayout.createSequentialGroup()
+                .addGap(57, 57, 57)
+                .addGroup(entryDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(entryDetailsLayout.createSequentialGroup()
+                        .addComponent(jLabel25)
+                        .addGap(18, 18, 18)
+                        .addComponent(loansUsn1))
+                    .addComponent(detailsBackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(entryDetailsLayout.createSequentialGroup()
+                        .addComponent(jLabel24)
+                        .addGap(18, 18, 18)
+                        .addComponent(loansMonthlyPayment1))
+                    .addGroup(entryDetailsLayout.createSequentialGroup()
+                        .addComponent(jLabel26)
+                        .addGap(18, 18, 18)
+                        .addComponent(loansYearlyInterest1))
+                    .addGroup(entryDetailsLayout.createSequentialGroup()
+                        .addComponent(jLabel23)
+                        .addGap(18, 18, 18)
+                        .addComponent(loansTotalRemaining1))
+                    .addComponent(detailsLogoutButton)
+                    .addGroup(entryDetailsLayout.createSequentialGroup()
+                        .addComponent(jLabel27)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel28)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 292, Short.MAX_VALUE)
+                .addGroup(entryDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel22))
+                .addGap(66, 66, 66))
+        );
+        entryDetailsLayout.setVerticalGroup(
+            entryDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(entryDetailsLayout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addGroup(entryDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel25)
+                    .addComponent(loansUsn1)
+                    .addComponent(jLabel22))
+                .addGap(35, 35, 35)
+                .addGroup(entryDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(entryDetailsLayout.createSequentialGroup()
+                        .addGroup(entryDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel26)
+                            .addComponent(loansYearlyInterest1))
+                        .addGap(35, 35, 35)
+                        .addGroup(entryDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel24)
+                            .addComponent(loansMonthlyPayment1))
+                        .addGap(35, 35, 35)
+                        .addGroup(entryDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel23)
+                            .addComponent(loansTotalRemaining1))
+                        .addGap(35, 35, 35)
+                        .addGroup(entryDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel27)
+                            .addComponent(jLabel28))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                        .addComponent(detailsBackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane5))
+                .addGap(18, 18, 18)
+                .addComponent(detailsLogoutButton)
+                .addGap(20, 20, 20))
+        );
+
+        mainPane.addTab("Entry details", entryDetails);
 
         getContentPane().add(mainPane, "card6");
 
@@ -556,7 +824,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private void regContinueButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regContinueButtonActionPerformed
         // TODO add your handling code here:
         try {
-            currUser = (MTUser)userManager.registerUser(regUsnField.getText(), regPassField.getPassword(), Integer.parseInt(regAgeField.getText()), Integer.parseInt(regBudgetField.getText()));
+            currUser = (MTUser) userManager.registerUser(regUsnField.getText(), regPassField.getPassword(), Integer.parseInt(regAgeField.getText()), Integer.parseInt(regBudgetField.getText()));
             JOptionPane.showMessageDialog(this, "Registration successful");
             clearJTextFields(registration);
             this.login();
@@ -608,7 +876,11 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void pAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pAddButtonActionPerformed
         try {
-            currUser.addEntry(pIncome.isSelected(), pName.getText(), Integer.parseInt(pPrice.getText()));
+            if(addLoanCheckBox.isSelected()){
+                loansAddButtonActionPerformed(evt);
+            }else{
+                currUser.addEntry(pIncome.isSelected(), pName.getText(), Integer.parseInt(pPrice.getText()));
+            }
             updateStats();
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Incorrect price, please try again");
@@ -622,21 +894,43 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void pExpenditureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pExpenditureActionPerformed
         // TODO add your handling code here:
+        addLoanCheckBox.setSelected(false);
+        addLoanCheckBox.setVisible(false);
     }//GEN-LAST:event_pExpenditureActionPerformed
 
     private void pLogoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pLogoutButtonActionPerformed
-        // TODO add your handling code here:
         logout();
     }//GEN-LAST:event_pLogoutButtonActionPerformed
 
     private void statsLogoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statsLogoutButtonActionPerformed
-        // TODO add your handling code here:
         logout();
     }//GEN-LAST:event_statsLogoutButtonActionPerformed
 
-    private void loansLogoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loansLogoutButtonActionPerformed
+    private void loansAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loansAddButtonActionPerformed
         // TODO add your handling code here:
+        JOptionPane.showMessageDialog(loans, "Soon");
+    }//GEN-LAST:event_loansAddButtonActionPerformed
+
+    private void loansLogoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loansLogoutButtonActionPerformed
+        logout();
     }//GEN-LAST:event_loansLogoutButtonActionPerformed
+
+    private void detailsLogoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detailsLogoutButtonActionPerformed
+        logout();
+    }//GEN-LAST:event_detailsLogoutButtonActionPerformed
+
+    private void detailsBackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detailsBackButtonActionPerformed
+        mainPane.setSelectedIndex(0);
+    }//GEN-LAST:event_detailsBackButtonActionPerformed
+
+    private void addLoanCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLoanCheckBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addLoanCheckBoxActionPerformed
+
+    private void pIncomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pIncomeActionPerformed
+        // TODO add your handling code here:
+        addLoanCheckBox.setVisible(true);
+    }//GEN-LAST:event_pIncomeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -673,7 +967,12 @@ public class MainJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox addLoanCheckBox;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton detailsBackButton;
+    private javax.swing.JList detailsList;
+    private javax.swing.JButton detailsLogoutButton;
+    private javax.swing.JPanel entryDetails;
     private javax.swing.JPanel firstPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -688,6 +987,13 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -698,13 +1004,19 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JPanel loans;
+    private javax.swing.JButton loansAddButton;
     private javax.swing.JList loansList;
     private javax.swing.JButton loansLogoutButton;
-    private javax.swing.JLabel loansMostCom;
-    private javax.swing.JLabel loansMostSpent;
-    private javax.swing.JLabel loansMostSpent1;
+    private javax.swing.JLabel loansMonthlyPayment;
+    private javax.swing.JLabel loansMonthlyPayment1;
+    private javax.swing.JLabel loansTotalRemaining;
+    private javax.swing.JLabel loansTotalRemaining1;
     private javax.swing.JLabel loansUsn;
+    private javax.swing.JLabel loansUsn1;
+    private javax.swing.JLabel loansYearlyInterest;
+    private javax.swing.JLabel loansYearlyInterest1;
     private javax.swing.JButton logBackButton;
     private javax.swing.JButton logContinueLogin;
     private javax.swing.JPasswordField logPasswordField;
