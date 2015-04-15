@@ -7,10 +7,15 @@ package MoneyTracker;
 
 import java.awt.CardLayout;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.DefaultListModel;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /**
  *
@@ -25,10 +30,36 @@ public class MainJFrame extends javax.swing.JFrame {
     private final UserManager userManager;
     private final DefaultListModel<String> entryListModel = new DefaultListModel<>();
     private final DefaultListModel<String> loansListModel = new DefaultListModel<>();
+    
 
     public MainJFrame() {
         userManager = new UserManager();
         initComponents();
+        mainPane.getRootPane().setDefaultButton(pAddButton);
+        pName.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pPrice.requestFocusInWindow();
+            }
+        });
+        pPrice.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pAddButtonActionPerformed(e);
+            }
+        });
+    }
+
+    public void setEntryTextFields(int indexOfElement) {
+        indexOfElement = (currUser.getTotalEntries() - 1) - indexOfElement; // because list in GUI is upside-down
+        Entry selectedEntry = currUser.getEntry(indexOfElement);
+        pIncome.setSelected(selectedEntry instanceof Income);
+        pExpenditure.setSelected(selectedEntry instanceof Expenditure);
+        pLoanCheckBox.setSelected(selectedEntry instanceof Loan);
+        
+        pName.setText(selectedEntry.getName());
+        String newPrice = Integer.toString(Math.abs(selectedEntry.getPrice()));
+        pPrice.setText(newPrice);
     }
 
     private void clearJTextFields(JPanel panel) {
@@ -43,7 +74,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private void login() {
         CardLayout card = (CardLayout) getContentPane().getLayout();
         card.show(getContentPane(), "card6");
-        clearJTextFields(registration);
+        clearJTextFields(registration); 
         clearJTextFields(login);
         updateStats();
     }
@@ -69,9 +100,9 @@ public class MainJFrame extends javax.swing.JFrame {
     private void listPurchases() {
         int totalUserEntr = currUser.getTotalEntries();
         int userCountDifference = totalUserEntr - entryListModel.size();
-        
+
         String dataString; //will save string, containing "cost", "type" and "name" variables of an entry
-        
+
         switch (userCountDifference) {
             case 1:
                 dataString = currUser.getEntryData(totalUserEntr - 1);
@@ -142,7 +173,7 @@ public class MainJFrame extends javax.swing.JFrame {
         pLogoutButton = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         pList = new javax.swing.JList();
-        addLoanCheckBox = new javax.swing.JCheckBox();
+        pLoanCheckBox = new javax.swing.JCheckBox();
         stats = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         statsLogoutButton = new javax.swing.JButton();
@@ -375,12 +406,14 @@ public class MainJFrame extends javax.swing.JFrame {
 
         getContentPane().add(login, "card3");
 
+        pName.setNextFocusableComponent(pPrice);
         pName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pNameActionPerformed(evt);
             }
         });
 
+        pPrice.setNextFocusableComponent(pAddButton);
         pPrice.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pPriceActionPerformed(evt);
@@ -388,6 +421,7 @@ public class MainJFrame extends javax.swing.JFrame {
         });
 
         pAddButton.setText("Add");
+        pAddButton.setNextFocusableComponent(pName);
         pAddButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pAddButtonActionPerformed(evt);
@@ -428,13 +462,20 @@ public class MainJFrame extends javax.swing.JFrame {
         });
 
         pList.setModel(entryListModel);
+        pList.setNextFocusableComponent(pAddButton);
+        pList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        pList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                pListValueChanged(evt);
+            }
+        });
         jScrollPane3.setViewportView(pList);
 
-        addLoanCheckBox.setText("Loan");
-        addLoanCheckBox.setVisible(false);
-        addLoanCheckBox.addActionListener(new java.awt.event.ActionListener() {
+        pLoanCheckBox.setText("Loan");
+        pLoanCheckBox.setVisible(false);
+        pLoanCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addLoanCheckBoxActionPerformed(evt);
+                pLoanCheckBoxActionPerformed(evt);
             }
         });
 
@@ -465,7 +506,7 @@ public class MainJFrame extends javax.swing.JFrame {
                                 .addComponent(pExpenditure)
                                 .addGap(85, 85, 85)
                                 .addGroup(purchasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(addLoanCheckBox)
+                                    .addComponent(pLoanCheckBox)
                                     .addComponent(pIncome))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 175, Short.MAX_VALUE)
                         .addGroup(purchasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -499,7 +540,7 @@ public class MainJFrame extends javax.swing.JFrame {
                             .addComponent(pExpenditure)
                             .addComponent(pIncome))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(addLoanCheckBox)
+                        .addComponent(pLoanCheckBox)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(pAddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(purchasesLayout.createSequentialGroup()
@@ -876,9 +917,9 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void pAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pAddButtonActionPerformed
         try {
-            if(addLoanCheckBox.isSelected()){
+            if (pLoanCheckBox.isSelected()) {
                 loansAddButtonActionPerformed(evt);
-            }else{
+            } else {
                 currUser.addEntry(pIncome.isSelected(), pName.getText(), Integer.parseInt(pPrice.getText()));
             }
             updateStats();
@@ -889,13 +930,14 @@ public class MainJFrame extends javax.swing.JFrame {
         } catch (RuntimeException e) {
             JOptionPane.showMessageDialog(this, e);
         }
+        pList.setSelectedIndex(0);
 // TODO add your handling code here:
     }//GEN-LAST:event_pAddButtonActionPerformed
 
     private void pExpenditureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pExpenditureActionPerformed
         // TODO add your handling code here:
-        addLoanCheckBox.setSelected(false);
-        addLoanCheckBox.setVisible(false);
+        pLoanCheckBox.setSelected(false);
+        pLoanCheckBox.setVisible(false);
     }//GEN-LAST:event_pExpenditureActionPerformed
 
     private void pLogoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pLogoutButtonActionPerformed
@@ -923,14 +965,20 @@ public class MainJFrame extends javax.swing.JFrame {
         mainPane.setSelectedIndex(0);
     }//GEN-LAST:event_detailsBackButtonActionPerformed
 
-    private void addLoanCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLoanCheckBoxActionPerformed
+    private void pLoanCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pLoanCheckBoxActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_addLoanCheckBoxActionPerformed
+    }//GEN-LAST:event_pLoanCheckBoxActionPerformed
 
     private void pIncomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pIncomeActionPerformed
         // TODO add your handling code here:
-        addLoanCheckBox.setVisible(true);
+        pLoanCheckBox.setVisible(true);
     }//GEN-LAST:event_pIncomeActionPerformed
+
+    private void pListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_pListValueChanged
+        // TODO add your handling code here:
+        int index = pList.getSelectedIndex();
+        setEntryTextFields(index);
+    }//GEN-LAST:event_pListValueChanged
 
     /**
      * @param args the command line arguments
@@ -967,7 +1015,6 @@ public class MainJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox addLoanCheckBox;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton detailsBackButton;
     private javax.swing.JList detailsList;
@@ -1028,6 +1075,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JRadioButton pExpenditure;
     private javax.swing.JRadioButton pIncome;
     private javax.swing.JList pList;
+    private javax.swing.JCheckBox pLoanCheckBox;
     private javax.swing.JButton pLogoutButton;
     private javax.swing.JTextField pName;
     private javax.swing.JTextField pPrice;

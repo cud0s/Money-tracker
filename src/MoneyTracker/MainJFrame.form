@@ -352,7 +352,7 @@
                                       <Component id="pExpenditure" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="85" pref="85" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="addLoanCheckBox" min="-2" max="-2" attributes="0"/>
+                                          <Component id="pLoanCheckBox" min="-2" max="-2" attributes="0"/>
                                           <Component id="pIncome" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
@@ -400,7 +400,7 @@
                                   <Component id="pIncome" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                              <Component id="addLoanCheckBox" min="-2" max="-2" attributes="0"/>
+                              <Component id="pLoanCheckBox" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                               <Component id="pAddButton" min="-2" pref="50" max="-2" attributes="0"/>
                           </Group>
@@ -419,11 +419,21 @@
           </Layout>
           <SubComponents>
             <Component class="javax.swing.JTextField" name="pName">
+              <Properties>
+                <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                  <ComponentRef name="pPrice"/>
+                </Property>
+              </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pNameActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="pPrice">
+              <Properties>
+                <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                  <ComponentRef name="pAddButton"/>
+                </Property>
+              </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pPriceActionPerformed"/>
               </Events>
@@ -431,6 +441,9 @@
             <Component class="javax.swing.JButton" name="pAddButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Add"/>
+                <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                  <ComponentRef name="pName"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pAddButtonActionPerformed"/>
@@ -507,19 +520,28 @@
                     <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                       <Connection code="entryListModel" type="code"/>
                     </Property>
+                    <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                      <ComponentRef name="pAddButton"/>
+                    </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="pListValueChanged"/>
+                  </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="pList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);"/>
+                  </AuxValues>
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JCheckBox" name="addLoanCheckBox">
+            <Component class="javax.swing.JCheckBox" name="pLoanCheckBox">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Loan"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addLoanCheckBoxActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pLoanCheckBoxActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="addLoanCheckBox.setVisible(false);"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="pLoanCheckBox.setVisible(false);"/>
               </AuxValues>
             </Component>
           </SubComponents>
