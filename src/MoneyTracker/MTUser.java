@@ -11,11 +11,11 @@ import java.util.ArrayList;
  *
  * @author slvai_000
  */
-public class MTUser extends User{
+public class MTUser extends User {
+
     private int age;
     private int budget;
     private ArrayList<Entry> entries;
-    
 
     public int getAge() {
         return age;
@@ -26,21 +26,26 @@ public class MTUser extends User{
     }
 
     public void addEntry(boolean isIncome, String nName, int nPrice) {
-        if (nPrice > budget && !isIncome) {
+        if ((nPrice > budget && !isIncome)) {
             throw new RuntimeException("You don't have enough money in your budget for this purchase");
-        } else {
-            Entry newP;
-            if (isIncome) {
-                newP = new Income(nName, nPrice);
-            } else {
-                newP = new Expenditure(nName, nPrice);
-            }
-            budget += newP.getPrice();
-            entries.add(newP);
-         
         }
+        if (nPrice < 0) {
+            throw new NumberFormatException();
+        }
+        
+        Entry newP;
+        if (isIncome) {
+            newP = new Income(nName, nPrice);
+        } else {
+            newP = new Expenditure(nName, nPrice);
+        }
+        budget += newP.getPrice();
+        entries.add(newP);
     }
- 
+
+    public Entry getEntry(int i) {
+        return entries.get(i);
+    }
 
     public String getMost(boolean mComORmSpent) {
         ArrayList<String> tempStr = new ArrayList<>();
@@ -84,21 +89,21 @@ public class MTUser extends User{
         }
         return tempStr.get(a);
     }
-    
-    public String getEntryData(int i){
-        Entry e=entries.get(i);
+
+    public String getEntryData(int i) {
+        Entry e = entries.get(i);
         return e.getName() + e.getType() + e.getPrice();
     }
-    
-    public int getTotalEntries(){
+
+    public int getTotalEntries() {
         return entries.size();
     }
-    
+
     MTUser(String newUsername, char[] newPassword, int newAge, int newBudget) {
         super(newUsername, newPassword);
         age = newAge;
         budget = newBudget;
         this.entries = new ArrayList<>();
     }
-    
+
 }

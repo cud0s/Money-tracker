@@ -10,9 +10,8 @@ package MoneyTracker;
  * @author slvai_000
  */
 public abstract class Entry {
-    private String name;
+    private final String name;
     protected final int price;
-    public boolean income;
     
     public String getName(){
         return name;
@@ -27,7 +26,6 @@ public abstract class Entry {
     public abstract String getType();
     
     public Entry(String inName, int inPrice){
-        name=new String();
         name=inName;
         price=inPrice;
     }

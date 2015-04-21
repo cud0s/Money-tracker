@@ -12,32 +12,32 @@ import java.util.ArrayList;
  * @author slvai_000
  */
 public class Expenditure extends Entry{
-    ArrayList <NutrValue> nValues;
-    public Expenditure(String inName, int inPrice) {
-        super(inName, inPrice);
-        nValues = new ArrayList<>();
+    ArrayList <String> detailValues;
+
+    public String getDetail(int a) {
+        if ((a > -1) && (a < 4)) {
+            return detailValues.get(a);
+        } else {
+            return null;
+        }
     }
-    
-    public void addNutritionalV(String a, int b){
-        nValues.add(new NutrValue(a, b));
+
+    private void updateDetails() {
+        this.getName();
     }
-    
-    public NutrValue getNutritionalV(int a){
-      if(nValues.indexOf(a)!=(-1)){
-          return nValues.get(a);
-      }else{
-          return null;
-      }
-    }
-    
-    
+
     @Override
-    public String getType(){
+    public String getType() {
         return " Expenditure:";
     }
-    
+
     @Override
-    public int getPrice(){
+    public int getPrice() {
         return -price;
+    }
+
+    public Expenditure(String inName, int inPrice) {
+        super(inName, inPrice);
+        detailValues = new ArrayList<>();
     }
 }

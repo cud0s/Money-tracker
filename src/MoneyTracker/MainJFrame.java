@@ -14,8 +14,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.DefaultListModel;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 /**
  *
@@ -30,7 +28,6 @@ public class MainJFrame extends javax.swing.JFrame {
     private final UserManager userManager;
     private final DefaultListModel<String> entryListModel = new DefaultListModel<>();
     private final DefaultListModel<String> loansListModel = new DefaultListModel<>();
-    
 
     public MainJFrame() {
         userManager = new UserManager();
@@ -50,18 +47,6 @@ public class MainJFrame extends javax.swing.JFrame {
         });
     }
 
-    public void setEntryTextFields(int indexOfElement) {
-        indexOfElement = (currUser.getTotalEntries() - 1) - indexOfElement; // because list in GUI is upside-down
-        Entry selectedEntry = currUser.getEntry(indexOfElement);
-        pIncome.setSelected(selectedEntry instanceof Income);
-        pExpenditure.setSelected(selectedEntry instanceof Expenditure);
-        pLoanCheckBox.setSelected(selectedEntry instanceof Loan);
-        
-        pName.setText(selectedEntry.getName());
-        String newPrice = Integer.toString(Math.abs(selectedEntry.getPrice()));
-        pPrice.setText(newPrice);
-    }
-
     private void clearJTextFields(JPanel panel) {
         Component[] components = panel.getComponents();
         for (Component component : components) {
@@ -74,7 +59,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private void login() {
         CardLayout card = (CardLayout) getContentPane().getLayout();
         card.show(getContentPane(), "card6");
-        clearJTextFields(registration); 
+        clearJTextFields(registration);
         clearJTextFields(login);
         updateStats();
     }
@@ -95,6 +80,25 @@ public class MainJFrame extends javax.swing.JFrame {
 
         jLabel12.setText(Integer.toString(currUser.getBudget()));
         listPurchases();
+    }
+
+    private void updateStats(int index) {
+        updateStats();
+
+        index = (currUser.getTotalEntries() - 1) - index; // because list in GUI is upside-down
+        Entry selectedEntry = currUser.getEntry(index);
+        pIncome.setSelected(selectedEntry instanceof Income);
+        pExpenditure.setSelected(selectedEntry instanceof Expenditure);
+        pLoanCheckBox.setSelected(selectedEntry instanceof Loan);
+
+        String entryName = selectedEntry.getName();
+
+        pName.setText(entryName);
+        String newPrice = Integer.toString(Math.abs(selectedEntry.getPrice()));
+        pPrice.setText(newPrice);
+
+        dItemName.setText(entryName);
+
     }
 
     private void listPurchases() {
@@ -202,19 +206,19 @@ public class MainJFrame extends javax.swing.JFrame {
         entryDetails = new javax.swing.JPanel();
         jLabel22 = new javax.swing.JLabel();
         detailsLogoutButton = new javax.swing.JButton();
-        jLabel23 = new javax.swing.JLabel();
-        jLabel24 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
-        jLabel26 = new javax.swing.JLabel();
-        loansUsn1 = new javax.swing.JLabel();
-        loansYearlyInterest1 = new javax.swing.JLabel();
-        loansMonthlyPayment1 = new javax.swing.JLabel();
-        loansTotalRemaining1 = new javax.swing.JLabel();
+        dItemName = new javax.swing.JLabel();
+        dLabel1 = new javax.swing.JLabel();
+        dLabel2 = new javax.swing.JLabel();
+        dLabel3 = new javax.swing.JLabel();
+        dLabel4 = new javax.swing.JLabel();
+        dLabelRight1 = new javax.swing.JLabel();
+        dLabelRight2 = new javax.swing.JLabel();
+        dLabelRight3 = new javax.swing.JLabel();
+        dLabelRight4 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         detailsList = new javax.swing.JList();
         detailsBackButton = new javax.swing.JButton();
-        jLabel27 = new javax.swing.JLabel();
-        jLabel28 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.CardLayout());
@@ -748,23 +752,32 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel23.setText("Protein:");
-
-        jLabel24.setText("Carbohydrates:");
-
         jLabel25.setText("Item name:");
 
-        jLabel26.setText("Calories:");
+        dItemName.setText("jLabel16");
 
-        loansUsn1.setText("jLabel16");
+        dLabel1.setText("Calories:");
 
-        loansYearlyInterest1.setText("empty");
+        dLabel2.setText("Carbohydrates:");
 
-        loansMonthlyPayment1.setText("empty");
+        dLabel3.setText("Protein:");
 
-        loansTotalRemaining1.setText("empty");
+        dLabel4.setText("Fat:");
+
+        dLabelRight1.setText("empty");
+
+        dLabelRight2.setText("empty");
+
+        dLabelRight3.setText("empty");
+
+        dLabelRight4.setText("empty");
 
         detailsList.setModel(entryListModel);
+        detailsList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                detailsListValueChanged(evt);
+            }
+        });
         jScrollPane5.setViewportView(detailsList);
 
         detailsBackButton.setText("Back");
@@ -773,10 +786,6 @@ public class MainJFrame extends javax.swing.JFrame {
                 detailsBackButtonActionPerformed(evt);
             }
         });
-
-        jLabel27.setText("Fat:");
-
-        jLabel28.setText("empty");
 
         javax.swing.GroupLayout entryDetailsLayout = new javax.swing.GroupLayout(entryDetails);
         entryDetails.setLayout(entryDetailsLayout);
@@ -788,25 +797,25 @@ public class MainJFrame extends javax.swing.JFrame {
                     .addGroup(entryDetailsLayout.createSequentialGroup()
                         .addComponent(jLabel25)
                         .addGap(18, 18, 18)
-                        .addComponent(loansUsn1))
+                        .addComponent(dItemName))
                     .addComponent(detailsBackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(entryDetailsLayout.createSequentialGroup()
-                        .addComponent(jLabel24)
+                        .addComponent(dLabel2)
                         .addGap(18, 18, 18)
-                        .addComponent(loansMonthlyPayment1))
+                        .addComponent(dLabelRight2))
                     .addGroup(entryDetailsLayout.createSequentialGroup()
-                        .addComponent(jLabel26)
+                        .addComponent(dLabel1)
                         .addGap(18, 18, 18)
-                        .addComponent(loansYearlyInterest1))
+                        .addComponent(dLabelRight1))
                     .addGroup(entryDetailsLayout.createSequentialGroup()
-                        .addComponent(jLabel23)
+                        .addComponent(dLabel3)
                         .addGap(18, 18, 18)
-                        .addComponent(loansTotalRemaining1))
+                        .addComponent(dLabelRight3))
                     .addComponent(detailsLogoutButton)
                     .addGroup(entryDetailsLayout.createSequentialGroup()
-                        .addComponent(jLabel27)
+                        .addComponent(dLabel4)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel28)))
+                        .addComponent(dLabelRight4)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 292, Short.MAX_VALUE)
                 .addGroup(entryDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -819,26 +828,26 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addGap(35, 35, 35)
                 .addGroup(entryDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel25)
-                    .addComponent(loansUsn1)
+                    .addComponent(dItemName)
                     .addComponent(jLabel22))
                 .addGap(35, 35, 35)
                 .addGroup(entryDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(entryDetailsLayout.createSequentialGroup()
                         .addGroup(entryDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel26)
-                            .addComponent(loansYearlyInterest1))
+                            .addComponent(dLabel1)
+                            .addComponent(dLabelRight1))
                         .addGap(35, 35, 35)
                         .addGroup(entryDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel24)
-                            .addComponent(loansMonthlyPayment1))
+                            .addComponent(dLabel2)
+                            .addComponent(dLabelRight2))
                         .addGap(35, 35, 35)
                         .addGroup(entryDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel23)
-                            .addComponent(loansTotalRemaining1))
+                            .addComponent(dLabel3)
+                            .addComponent(dLabelRight3))
                         .addGap(35, 35, 35)
                         .addGroup(entryDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel27)
-                            .addComponent(jLabel28))
+                            .addComponent(dLabel4)
+                            .addComponent(dLabelRight4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                         .addComponent(detailsBackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane5))
@@ -976,9 +985,15 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void pListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_pListValueChanged
         // TODO add your handling code here:
-        int index = pList.getSelectedIndex();
-        setEntryTextFields(index);
+        if (currUser != null) {
+            int index = pList.getSelectedIndex();
+            updateStats(index);
+        }
     }//GEN-LAST:event_pListValueChanged
+
+    private void detailsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_detailsListValueChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_detailsListValueChanged
 
     /**
      * @param args the command line arguments
@@ -1016,6 +1031,15 @@ public class MainJFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JLabel dItemName;
+    private javax.swing.JLabel dLabel1;
+    private javax.swing.JLabel dLabel2;
+    private javax.swing.JLabel dLabel3;
+    private javax.swing.JLabel dLabel4;
+    private javax.swing.JLabel dLabelRight1;
+    private javax.swing.JLabel dLabelRight2;
+    private javax.swing.JLabel dLabelRight3;
+    private javax.swing.JLabel dLabelRight4;
     private javax.swing.JButton detailsBackButton;
     private javax.swing.JList detailsList;
     private javax.swing.JButton detailsLogoutButton;
@@ -1035,12 +1059,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel26;
-    private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1057,13 +1076,9 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JList loansList;
     private javax.swing.JButton loansLogoutButton;
     private javax.swing.JLabel loansMonthlyPayment;
-    private javax.swing.JLabel loansMonthlyPayment1;
     private javax.swing.JLabel loansTotalRemaining;
-    private javax.swing.JLabel loansTotalRemaining1;
     private javax.swing.JLabel loansUsn;
-    private javax.swing.JLabel loansUsn1;
     private javax.swing.JLabel loansYearlyInterest;
-    private javax.swing.JLabel loansYearlyInterest1;
     private javax.swing.JButton logBackButton;
     private javax.swing.JButton logContinueLogin;
     private javax.swing.JPasswordField logPasswordField;

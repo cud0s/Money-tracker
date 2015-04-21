@@ -5,11 +5,7 @@
  */
 package MoneyTracker;
 
-/**
- *
- * @author slvai_000
- */
-public class MTAdmin extends MTUser{
+public class MTAdmin extends MTUser {
 
     public MTAdmin(String newUsername, char[] newPassword, int newAge, int newBudget) {
         super(newUsername, newPassword, newAge, newBudget);

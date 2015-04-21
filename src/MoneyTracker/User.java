@@ -12,26 +12,27 @@ import java.util.Objects;
  *
  * @author slvai_000
  */
-public class User implements ManagableUser {    
+public class User implements ManagableUser {
 
     private String username;
+
     private final char[] password;
-    
+
     @Override
     public String getUsername() {
         return username;
-    }    
-    
+    }
+
     @Override
     public boolean compareToPsw(char[] inputPsw) {
         //hashing and etc.
         return Arrays.equals(password, inputPsw);
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this.username);
+        hash = 71 * hash + Objects.hashCode(this.username);
         return hash;
     }
 
@@ -40,19 +41,20 @@ public class User implements ManagableUser {
         if (obj == null) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
+        System.out.println("equals called");
+        /*if (getClass() != obj.getClass()) {
+        return false;
+        }*/
         final User other = (User) obj;
-        if (!Objects.equals(this.username, other.username)) {
+        if (!Objects.equals(this.username, other.getUsername())) {
             return false;
         }
-        if (!Arrays.equals(this.password, other.password)) {
+        if (!other.compareToPsw(this.password)) {
             return false;
         }
         return true;
     }
-    
+
     public User(String newUsername, char[] newPassword) {
         username = new String();
         username = newUsername;

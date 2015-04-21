@@ -881,29 +881,29 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel25" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                              <Component id="loansUsn1" min="-2" max="-2" attributes="0"/>
+                              <Component id="dItemName" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="detailsBackButton" alignment="0" min="-2" pref="170" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabel24" min="-2" max="-2" attributes="0"/>
+                              <Component id="dLabel2" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="loansMonthlyPayment1" min="-2" max="-2" attributes="0"/>
+                              <Component id="dLabelRight2" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabel26" min="-2" max="-2" attributes="0"/>
+                              <Component id="dLabel1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="loansYearlyInterest1" min="-2" max="-2" attributes="0"/>
+                              <Component id="dLabelRight1" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabel23" min="-2" max="-2" attributes="0"/>
+                              <Component id="dLabel3" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="loansTotalRemaining1" min="-2" max="-2" attributes="0"/>
+                              <Component id="dLabelRight3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="detailsLogoutButton" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <Component id="jLabel27" min="-2" max="-2" attributes="0"/>
+                              <Component id="dLabel4" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jLabel28" min="-2" max="-2" attributes="0"/>
+                              <Component id="dLabelRight4" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace pref="292" max="32767" attributes="0"/>
@@ -921,30 +921,30 @@
                       <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel25" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="loansUsn1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="dItemName" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel22" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="35" pref="35" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jLabel26" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="loansYearlyInterest1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="dLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="dLabelRight1" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jLabel24" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="loansMonthlyPayment1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="dLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="dLabelRight2" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jLabel23" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="loansTotalRemaining1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="dLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="dLabelRight3" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jLabel27" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel28" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="dLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="dLabelRight4" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace pref="57" max="32767" attributes="0"/>
                               <Component id="detailsBackButton" min="-2" pref="50" max="-2" attributes="0"/>
@@ -972,42 +972,52 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="detailsLogoutButtonActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel23">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Protein:"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="jLabel24">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Carbohydrates:"/>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JLabel" name="jLabel25">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Item name:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel26">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Calories:"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="loansUsn1">
+            <Component class="javax.swing.JLabel" name="dItemName">
               <Properties>
                 <Property name="text" type="java.lang.String" value="jLabel16"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="loansYearlyInterest1">
+            <Component class="javax.swing.JLabel" name="dLabel1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Calories:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="dLabel2">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Carbohydrates:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="dLabel3">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Protein:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="dLabel4">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Fat:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="dLabelRight1">
               <Properties>
                 <Property name="text" type="java.lang.String" value="empty"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="loansMonthlyPayment1">
+            <Component class="javax.swing.JLabel" name="dLabelRight2">
               <Properties>
                 <Property name="text" type="java.lang.String" value="empty"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="loansTotalRemaining1">
+            <Component class="javax.swing.JLabel" name="dLabelRight3">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="empty"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="dLabelRight4">
               <Properties>
                 <Property name="text" type="java.lang.String" value="empty"/>
               </Properties>
@@ -1025,6 +1035,9 @@
                       <Connection code="entryListModel" type="code"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="detailsListValueChanged"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -1035,16 +1048,6 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="detailsBackButtonActionPerformed"/>
               </Events>
-            </Component>
-            <Component class="javax.swing.JLabel" name="jLabel27">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Fat:"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="jLabel28">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="empty"/>
-              </Properties>
             </Component>
           </SubComponents>
         </Container>
