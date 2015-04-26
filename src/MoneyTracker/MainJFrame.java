@@ -9,6 +9,8 @@ import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -28,11 +30,18 @@ public class MainJFrame extends javax.swing.JFrame {
     private final UserManager userManager;
     private final DefaultListModel<String> entryListModel = new DefaultListModel<>();
     private final DefaultListModel<String> loansListModel = new DefaultListModel<>();
+    private boolean ignoreListChanges = false;                                  // galima geriau?
 
+    static ExecutorService executor = Executors.newFixedThreadPool(4); ;
+    
     public MainJFrame() {
-        userManager = new UserManager();
+        userManager = UserManagerFactory.getUserManager();
         initComponents();
-        mainPane.getRootPane().setDefaultButton(pAddButton);
+        pList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        statsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        loansList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        detailsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        
         pName.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -57,14 +66,17 @@ public class MainJFrame extends javax.swing.JFrame {
     }
 
     private void login() {
+        mainPane.getRootPane().setDefaultButton(pAddButton);
         CardLayout card = (CardLayout) getContentPane().getLayout();
         card.show(getContentPane(), "card6");
+        pName.requestFocus();
         clearJTextFields(registration);
         clearJTextFields(login);
         updateStats();
     }
 
-    private void logout() {
+    private void logout() {        
+        mainPane.getRootPane().setDefaultButton(null);
         currUser = null;
         entryListModel.removeAllElements();
         CardLayout card = (CardLayout) getContentPane().getLayout();
@@ -74,7 +86,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private void updateStats() {
         statsUsn.setText(currUser.getUsername());
         statsMostCom.setText(currUser.getMost(true));
-        statsMostSpent.setText(currUser.getMost(false));
+        statsMostSpent.setText(currUser.getMost(false));          
 
         loansUsn.setText(currUser.getUsername());
 
@@ -96,12 +108,25 @@ public class MainJFrame extends javax.swing.JFrame {
         pName.setText(entryName);
         String newPrice = Integer.toString(Math.abs(selectedEntry.getPrice()));
         pPrice.setText(newPrice);
-
-        dItemName.setText(entryName);
-
+        
+        //------------------better solution needed --------------------
+        String[] details = selectedEntry.getDetails();
+        dLabel1.setText(details[0]);
+        dLabel2.setText(details[2]);
+        dLabel3.setText(details[4]);
+        dLabel4.setText(details[6]);
+        
+        dLabelRight1.setText(details[1]);
+        dLabelRight2.setText(details[3]);
+        dLabelRight3.setText(details[5]);
+        dLabelRight4.setText(details[7]);
+        
+        dItemName.setText("<html>"+details[8]+"</html>");
+        //-------------------------------------------------------------
     }
 
     private void listPurchases() {
+        ignoreListChanges = true;
         int totalUserEntr = currUser.getTotalEntries();
         int userCountDifference = totalUserEntr - entryListModel.size();
 
@@ -128,6 +153,7 @@ public class MainJFrame extends javax.swing.JFrame {
                 }
                 break;
         }
+        ignoreListChanges = false;
     }
 
     /**
@@ -467,7 +493,6 @@ public class MainJFrame extends javax.swing.JFrame {
 
         pList.setModel(entryListModel);
         pList.setNextFocusableComponent(pAddButton);
-        pList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         pList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 pListValueChanged(evt);
@@ -755,6 +780,8 @@ public class MainJFrame extends javax.swing.JFrame {
         jLabel25.setText("Item name:");
 
         dItemName.setText("jLabel16");
+        dItemName.setMaximumSize(new java.awt.Dimension(350, 40));
+        dItemName.setName(""); // NOI18N
 
         dLabel1.setText("Calories:");
 
@@ -797,7 +824,7 @@ public class MainJFrame extends javax.swing.JFrame {
                     .addGroup(entryDetailsLayout.createSequentialGroup()
                         .addComponent(jLabel25)
                         .addGap(18, 18, 18)
-                        .addComponent(dItemName))
+                        .addComponent(dItemName, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(detailsBackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(entryDetailsLayout.createSequentialGroup()
                         .addComponent(dLabel2)
@@ -816,7 +843,7 @@ public class MainJFrame extends javax.swing.JFrame {
                         .addComponent(dLabel4)
                         .addGap(18, 18, 18)
                         .addComponent(dLabelRight4)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 292, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
                 .addGroup(entryDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel22))
@@ -828,7 +855,7 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addGap(35, 35, 35)
                 .addGroup(entryDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel25)
-                    .addComponent(dItemName)
+                    .addComponent(dItemName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel22))
                 .addGap(35, 35, 35)
                 .addGroup(entryDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -848,7 +875,7 @@ public class MainJFrame extends javax.swing.JFrame {
                         .addGroup(entryDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(dLabel4)
                             .addComponent(dLabelRight4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                         .addComponent(detailsBackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane5))
                 .addGap(18, 18, 18)
@@ -868,7 +895,9 @@ public class MainJFrame extends javax.swing.JFrame {
     private void regButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regButtonActionPerformed
         // TODO add your handling code here:
         CardLayout card = (CardLayout) getContentPane().getLayout();
-        card.show(getContentPane(), "card2");
+        card.show(getContentPane(), "card2");        
+        mainPane.getRootPane().setDefaultButton(regContinueButton);
+        regUsnField.requestFocus();
     }//GEN-LAST:event_regButtonActionPerformed
 
     private void regContinueButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regContinueButtonActionPerformed
@@ -895,6 +924,8 @@ public class MainJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         CardLayout card = (CardLayout) getContentPane().getLayout();
         card.show(getContentPane(), "card3");
+        mainPane.getRootPane().setDefaultButton(logContinueLogin);
+        logUsnField.requestFocus();
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void logBackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logBackButtonActionPerformed
@@ -985,7 +1016,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void pListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_pListValueChanged
         // TODO add your handling code here:
-        if (currUser != null) {
+        if (currUser != null && !ignoreListChanges) {
             int index = pList.getSelectedIndex();
             updateStats(index);
         }
@@ -993,6 +1024,10 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void detailsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_detailsListValueChanged
         // TODO add your handling code here:
+        if (currUser != null && !ignoreListChanges) {
+            int index = detailsList.getSelectedIndex();
+            updateStats(index);
+        }
     }//GEN-LAST:event_detailsListValueChanged
 
     /**

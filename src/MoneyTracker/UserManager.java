@@ -25,8 +25,7 @@ public class UserManager {
     }  //registers MTUser
 
     private Object addUser(ManagableUser newUser) {
-       // if (users.putIfAbsent(newUser.getUsername(), newUser) == null) {  - atsiskaicius atkomentuot
-        if (users.put(newUser, newUser) == null) {                      //  - nutrint  
+        if (users.put(newUser.getUsername(), newUser) == null) {  
             return newUser;
         } else {
             throw new RuntimeException("This username is not available");
@@ -34,13 +33,11 @@ public class UserManager {
     }
 
     public Object performLogin(String inputUsn, char[] inputPsw) {
-       // ManagableUser newUser = (ManagableUser)users.get(inputUsn);       - atsiskaicius atkomentuot
-        User newUser = new User(inputUsn, inputPsw);                    //  - nutrint
-        newUser = (User)users.get(newUser);                             //  - nutrint
+        ManagableUser newUser = (ManagableUser)users.get(inputUsn);    
         if (newUser != null) {
-            //if(newUser.compareToPsw(inputPsw)){
+            if(newUser.compareToPsw(inputPsw)){
                 return newUser;
-            //}
+            }
         }
         throw new RuntimeException("Login unsuccessful, try again");
     }    

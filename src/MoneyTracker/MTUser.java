@@ -24,7 +24,7 @@ public class MTUser extends User {
     public int getBudget() {
         return budget;
     }
-
+    
     public void addEntry(boolean isIncome, String nName, int nPrice) {
         if ((nPrice > budget && !isIncome)) {
             throw new RuntimeException("You don't have enough money in your budget for this purchase");
@@ -39,6 +39,7 @@ public class MTUser extends User {
         } else {
             newP = new Expenditure(nName, nPrice);
         }
+        MainJFrame.executor.execute(newP);
         budget += newP.getPrice();
         entries.add(newP);
     }

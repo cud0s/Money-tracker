@@ -5,26 +5,12 @@
  */
 package MoneyTracker;
 
-import java.util.ArrayList;
 
 /**
  *
  * @author slvai_000
  */
 public class Expenditure extends Entry{
-    ArrayList <String> detailValues;
-
-    public String getDetail(int a) {
-        if ((a > -1) && (a < 4)) {
-            return detailValues.get(a);
-        } else {
-            return null;
-        }
-    }
-
-    private void updateDetails() {
-        this.getName();
-    }
 
     @Override
     public String getType() {
@@ -35,9 +21,9 @@ public class Expenditure extends Entry{
     public int getPrice() {
         return -price;
     }
-
+    
     public Expenditure(String inName, int inPrice) {
         super(inName, inPrice);
-        detailValues = new ArrayList<>();
+        //updateDetails();
     }
 }

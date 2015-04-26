@@ -6,7 +6,6 @@
 package MoneyTracker;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 /**
  *
@@ -28,32 +27,7 @@ public class User implements ManagableUser {
         //hashing and etc.
         return Arrays.equals(password, inputPsw);
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 71 * hash + Objects.hashCode(this.username);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        System.out.println("equals called");
-        /*if (getClass() != obj.getClass()) {
-        return false;
-        }*/
-        final User other = (User) obj;
-        if (!Objects.equals(this.username, other.getUsername())) {
-            return false;
-        }
-        if (!other.compareToPsw(this.password)) {
-            return false;
-        }
-        return true;
-    }
+    
 
     public User(String newUsername, char[] newPassword) {
         username = new String();

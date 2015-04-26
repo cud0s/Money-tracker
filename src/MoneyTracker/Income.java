@@ -14,6 +14,7 @@ public class Income extends Entry{
         super(inName, inPrice);
     }
     
+    @Override
     public String getType(){
         return " Income:";
     }
