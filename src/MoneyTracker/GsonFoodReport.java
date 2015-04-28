@@ -10,6 +10,7 @@ package MoneyTracker;
  * @author slvai_000
  */
 public class GsonFoodReport {
+
     GsonReport report;
 
     public static class GsonReport {
@@ -65,11 +66,10 @@ public class GsonFoodReport {
                 }
             }
 
-
             public GsonNutrients[] getNutrients() {
                 return nutrients;
             }
-            
+
             public GsonFood() {
             }
         }
@@ -79,5 +79,5 @@ public class GsonFoodReport {
     }
 
     public GsonFoodReport() {
-    }   
+    }
 }

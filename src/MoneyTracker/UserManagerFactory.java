@@ -9,10 +9,15 @@ package MoneyTracker;
  *
  * @author slvai_000
  */
+//not really nessecarry, only needed for completing assignment
 public final class UserManagerFactory {
-    public static UserManager getUserManager(){
+
+    public static UserManager getUserManager() {
         return new UserManager();
     }
-    private UserManagerFactory(){};
-    
+
+    private UserManagerFactory() {
+    }
+;
+
 }

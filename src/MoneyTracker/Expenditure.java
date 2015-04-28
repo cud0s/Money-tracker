@@ -5,23 +5,24 @@
  */
 package MoneyTracker;
 
-
 /**
  *
  * @author slvai_000
  */
-public class Expenditure extends Entry{
+public class Expenditure extends Entry {
+
+    private final static String type = "Expenditure";
 
     @Override
     public String getType() {
-        return " Expenditure:";
+        return type;
     }
 
     @Override
     public int getPrice() {
         return -price;
     }
-    
+
     public Expenditure(String inName, int inPrice) {
         super(inName, inPrice);
         //updateDetails();

@@ -9,6 +9,8 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.*;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -21,37 +23,123 @@ import java.util.logging.Logger;
  */
 public abstract class Entry implements Runnable {
 
-    HashMap nutrientData;
-
-    private final static String KEY = "rcxyzNl40xB4Q0MfFkM1GZmFuV4HUkW8uMSkOCIM";
-    private String ndbno;
-
-    private final String[] textField = new String[9];
-
-    private final String name;
     protected final int price;
+    protected LocalDate inputDate;
+
+    private HashMap nutrientData;
+    private String ndbno = null;
+    private final static String KEY = "ujiILYb2jj66QxKZRBFpekHnBgitQCbyGZXRadda";
+    private final String[] textField = new String[11];
+    private final String name;
+
+    public abstract int getPrice();
+
+    public abstract String getType();
+
+    @Override
+    public String toString() {
+        String type = "Loan";
+        return this.getName() + this.getType() + ": " + this.getPrice();
+    }
+
+    @Override
+    public void run() {
+        updateDetails();
+    }
 
     public String getName() {
         return name;
     }
 
-    /**
-     *
-     * @return
-     */
-    public abstract int getPrice();
-
-    public abstract String getType();
-    
-    
-    
-    @Override
-    public void run(){
-        updateDetails();
+    public String getNdbno() {
+        return ndbno;
     }
-    
+
+    public LocalDate getInputDate() {
+        return inputDate;
+    }
+
+    public String[] getDetails() {
+        System.out.println("get details");
+        GsonFoodReport.GsonReport.GsonFood.GsonNutrients nutrient = null;
+        String nutrientId;
+
+        for (int a = 0; a < 4; a++) {
+            switch (a) {
+                case 0:
+                    nutrientId = "208"; //energy (kcals)
+                    break;
+                case 1:
+                    nutrientId = "205"; //carbs
+                    break;
+                case 2:
+                    nutrientId = "203"; //protein
+                    break;
+                case 3:
+                    nutrientId = "204"; //total fat
+                    break;
+                default:
+                    nutrientId = "Error";
+                    break;
+
+            }
+            if (nutrientData.containsKey(nutrientId)) {
+                nutrient = (GsonFoodReport.GsonReport.GsonFood.GsonNutrients) nutrientData.get(nutrientId);
+
+                textField[a * 2] = nutrient.getName() + " (100g):";
+                textField[a * 2 + 1] = nutrient.getValue() + " " + nutrient.getUnit();
+            } else {
+                switch (a) {
+                    case 0:
+                        textField[a] = "Price:";
+                        break;
+                    case 1:
+                        textField[a] = Integer.toString(this.price);
+                        break;
+                    case 2:
+                        textField[a] = "Type:";
+                        break;
+                    case 3:
+                        textField[a] = this.getType();
+                        break;
+                    case 4:
+                        textField[a] = "";
+                        break;
+                    case 5:
+                        textField[a] = "";
+                        break;
+                    case 6:
+                        textField[a] = "";
+                        break;
+                    case 7:
+                        textField[a] = "";
+                        break;
+                    default:
+                        break;
+                }
+                /*textField[a * 2] = "Standart data" + (a * 2) + " :";
+                 textField[a * 2] = "Standart data" + (a * 2 + 1);*/
+            }
+        }
+
+        /*  paklaust, ar geriau užkomentuotas variantas, ar dvi eilutės žemiau
+         if(ndbno == null){
+         textField[9]="Date added:";
+         textField[8]=inputDate.toString();
+         }else{
+         textField[9]="AutoSearch name:";
+         //textField[8] was already set to the name of selected food by updateDetails()
+         }*/
+        textField[9] = (ndbno == null) ? "Date added:" : "AutoSearch name:";
+        textField[8] = (ndbno == null) ? inputDate.toString() : textField[8];
+
+        System.out.println(Arrays.toString(textField));
+        return textField;
+    }
+
     private void updateDetails() {
         try {
+
             // Get Gson object
             Gson gson = new Gson();
             String fileData = new String();
@@ -59,9 +147,9 @@ public abstract class Entry implements Runnable {
             URL foodSearch = new URL("http://api.nal.usda.gov/usda/ndb/search/?format=json&q=" + name + "&sort=r&max=25&offset=0&api_key=" + KEY);
             fileData = new Scanner(foodSearch.openStream(), "UTF-8").useDelimiter("\\A").next();
             foodSearch.openStream().close();
+
             // parse json string to object
             GsonFoodSearch gsonFoodSearch = gson.fromJson(fileData, GsonFoodSearch.class);
-
             for (GsonFoodSearch.GsonList.GsonItem item : gsonFoodSearch.list.getItems()) {
                 //checks if starts with, ends with, or contains the name+"," symbol
                 if (item.getName().toLowerCase().contains(", " + name.toLowerCase() + ",") || item.getName().toLowerCase().startsWith(name.toLowerCase() + ",") || item.getName().toLowerCase().endsWith(", " + name.toLowerCase())) {
@@ -105,53 +193,12 @@ public abstract class Entry implements Runnable {
         } catch (IOException ex) {
             //Logger.getLogger(Expenditure.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("point3");
         GsonFoodReport gsonFoodReport = gson.fromJson(fileData, GsonFoodReport.class);
-        System.out.println("point4");
         System.out.println(gsonFoodReport.report.type);
         System.out.println(gsonFoodReport);
-        System.out.println("point5");
         for (GsonFoodReport.GsonReport.GsonFood.GsonNutrients nutrient : gsonFoodReport.report.getFood().getNutrients()) {
             nutrientData.put(nutrient.getNutrientId(), nutrient);
         }
-        System.out.println("point1");
-    }
-
-    public String[] getDetails() {
-        System.out.println("get details");
-        GsonFoodReport.GsonReport.GsonFood.GsonNutrients nutrient = null;
-        String nutrientId;
-        for (int a = 0; a < 4; a++) {
-            switch (a) {
-                case 0:
-                    nutrientId = "208"; //energy (kcals)
-                    break;
-                case 1:
-                    nutrientId = "205"; //carbs
-                    break;
-                case 2:
-                    nutrientId = "203"; //protein
-                    break;
-                case 3:
-                    nutrientId = "204"; //total fat
-                    break;
-                default:
-                    nutrientId = "Error";
-                    break;
-
-            }
-            if (nutrientData.containsKey(nutrientId)) {
-                nutrient = (GsonFoodReport.GsonReport.GsonFood.GsonNutrients) nutrientData.get(nutrientId);
-
-                textField[a * 2] = nutrient.getName() + " (100g):";
-                textField[a * 2 + 1] = nutrient.getValue() + " " + nutrient.getUnit();
-            } else {
-                textField[a * 2] = "Standart data" + (a * 2) + " :";
-                textField[a * 2] = "Standart data" + (a * 2 + 1);
-            }
-        }
-        System.out.println(Arrays.toString(textField));
-        return textField;
     }
 
     public Entry(String inName, int inPrice) {
@@ -161,7 +208,6 @@ public abstract class Entry implements Runnable {
         for (String a : textField) {
             a = "";
         }
-        textField[8]=name;
-        //updateDetails();
+        inputDate = LocalDate.now();
     }
 }

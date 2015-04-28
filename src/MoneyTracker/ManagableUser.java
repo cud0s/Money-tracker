@@ -9,7 +9,9 @@ package MoneyTracker;
  *
  * @author slvai_000
  */
-public interface ManagableUser {    
+public interface ManagableUser {
+
     String getUsername();
+
     boolean compareToPsw(char[] inputPsw);
 }

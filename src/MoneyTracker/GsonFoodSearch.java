@@ -34,14 +34,13 @@ public class GsonFoodSearch {
         }
 
         /* public String getNdbno(String name) {
-        for (GsonItem item : item) {
-        if (item.getName().startsWith(name + ",")) {
-        return item.getNdbno();
-        }
-        }
-        return null;
-        }*/
-
+         for (GsonItem item : item) {
+         if (item.getName().startsWith(name + ",")) {
+         return item.getNdbno();
+         }
+         }
+         return null;
+         }*/
         public static class GsonItem {
 
             //private int offset;

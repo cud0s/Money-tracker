@@ -14,7 +14,6 @@ import java.util.Arrays;
 public class User implements ManagableUser {
 
     private String username;
-
     private final char[] password;
 
     @Override
@@ -27,7 +26,6 @@ public class User implements ManagableUser {
         //hashing and etc.
         return Arrays.equals(password, inputPsw);
     }
-    
 
     public User(String newUsername, char[] newPassword) {
         username = new String();
