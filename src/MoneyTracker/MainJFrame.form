@@ -96,16 +96,10 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JTextField" name="addLoansInterest">
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addLoansInterestActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="addLoansDay">
         </Component>
         <Component class="javax.swing.JTextField" name="addLoansYear">
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addLoansYearActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="addLoansMonth">
         </Component>
@@ -425,9 +419,6 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JTextField" name="logUsnField">
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="logUsnFieldActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JPasswordField" name="logPasswordField">
         </Component>
@@ -578,9 +569,6 @@
                   <ComponentRef name="pPrice"/>
                 </Property>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pNameActionPerformed"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="pPrice">
               <Properties>
@@ -588,9 +576,6 @@
                   <ComponentRef name="pAddButton"/>
                 </Property>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pPriceActionPerformed"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="pAddButton">
               <Properties>
@@ -688,9 +673,6 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Loan"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pLoanCheckBoxActionPerformed"/>
-              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="pLoanCheckBox.setVisible(false);"/>
               </AuxValues>

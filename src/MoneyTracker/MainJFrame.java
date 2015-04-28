@@ -10,15 +10,12 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import javax.swing.Box;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.DefaultListModel;
-import javax.swing.JLabel;
 import javax.swing.ListSelectionModel;
 
 /**
@@ -279,18 +276,6 @@ public class MainJFrame extends javax.swing.JFrame {
         detailsList = new javax.swing.JList();
         detailsBackButton = new javax.swing.JButton();
 
-        addLoansInterest.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addLoansInterestActionPerformed(evt);
-            }
-        });
-
-        addLoansYear.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addLoansYearActionPerformed(evt);
-            }
-        });
-
         jLabel16.setText("Monthly interest %:");
 
         jLabel23.setText("Year:");
@@ -506,12 +491,6 @@ public class MainJFrame extends javax.swing.JFrame {
 
         getContentPane().add(registration, "card2");
 
-        logUsnField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                logUsnFieldActionPerformed(evt);
-            }
-        });
-
         logBackButton.setText("Back");
         logBackButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -574,18 +553,8 @@ public class MainJFrame extends javax.swing.JFrame {
         getContentPane().add(login, "card3");
 
         pName.setNextFocusableComponent(pPrice);
-        pName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pNameActionPerformed(evt);
-            }
-        });
 
         pPrice.setNextFocusableComponent(pAddButton);
-        pPrice.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pPriceActionPerformed(evt);
-            }
-        });
 
         pAddButton.setText("Add");
         pAddButton.setNextFocusableComponent(pName);
@@ -639,11 +608,6 @@ public class MainJFrame extends javax.swing.JFrame {
 
         pLoanCheckBox.setText("Loan");
         pLoanCheckBox.setVisible(false);
-        pLoanCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pLoanCheckBoxActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout purchasesLayout = new javax.swing.GroupLayout(purchases);
         purchases.setLayout(purchasesLayout);
@@ -1114,18 +1078,6 @@ public class MainJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_logContinueLoginActionPerformed
 
-    private void logUsnFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logUsnFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_logUsnFieldActionPerformed
-
-    private void pNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pNameActionPerformed
-
-    private void pPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pPriceActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pPriceActionPerformed
-
     private void pAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pAddButtonActionPerformed
         try {
             if (pLoanCheckBox.isSelected()) {
@@ -1216,10 +1168,6 @@ public class MainJFrame extends javax.swing.JFrame {
         mainPane.setSelectedIndex(0);
     }//GEN-LAST:event_detailsBackButtonActionPerformed
 
-    private void pLoanCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pLoanCheckBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pLoanCheckBoxActionPerformed
-
     private void pIncomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pIncomeActionPerformed
         pLoanCheckBox.setVisible(true);
     }//GEN-LAST:event_pIncomeActionPerformed
@@ -1237,10 +1185,6 @@ public class MainJFrame extends javax.swing.JFrame {
             updateStats(index);
         }
     }//GEN-LAST:event_detailsListValueChanged
-
-    private void addLoansInterestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLoansInterestActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_addLoansInterestActionPerformed
 
     private void addLoansDateRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLoansDateRadioActionPerformed
         if (addLoansDateRadio.isSelected()) {
@@ -1276,10 +1220,6 @@ public class MainJFrame extends javax.swing.JFrame {
             updateLoansStats(index);
         }
     }//GEN-LAST:event_loansListValueChanged
-
-    private void addLoansYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLoansYearActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_addLoansYearActionPerformed
 
     /**
      * @param args the command line arguments

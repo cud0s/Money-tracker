@@ -9,13 +9,10 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.time.LocalDateTime;
 import java.time.*;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -139,7 +136,6 @@ public abstract class Entry implements Runnable {
 
     private void updateDetails() {
         try {
-
             // Get Gson object
             Gson gson = new Gson();
             String fileData = new String();

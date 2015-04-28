@@ -36,13 +36,14 @@ public class Loan extends Income {
     }
 
     private void calculateMonthlyPay() {
-        monthlyPay = (this.getPrice() * 1.0) / (inputDate.until(returnDate).toTotalMonths() * 1.0);
+        monthlyPay = (this.getPrice() * 1.0) / (inputDate.until(returnDate).toTotalMonths() * 1.0)*(1.00+mInterest*0.01);
     }
 
     public Loan(LocalDate inReturnDate, String inName, int inPrice, double inInterest) {
         super(inName, inPrice);
         returnDate = inReturnDate;
         mInterest = inInterest;
+        
         calculateMonthlyPay();
     }
 }
