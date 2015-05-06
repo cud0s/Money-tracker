@@ -24,8 +24,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.DefaultListModel;
 import javax.swing.ListSelectionModel;
-import programIO.TextIO;
-
 /**
  *
  * @author slvai_000
