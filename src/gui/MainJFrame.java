@@ -3,8 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package MoneyTracker;
+package gui;
 
+import logic.entry.Entry;
+import logic.entry.Expenditure;
+import logic.entry.Income;
+import logic.entry.Loan;
+import logic.user.MTUser;
+import logic.user.UserManager;
+import logic.user.UserManagerFactory;
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -33,9 +40,13 @@ public class MainJFrame extends javax.swing.JFrame {
     private final DefaultListModel<String> loansListModel = new DefaultListModel<>();
     private boolean ignoreListChanges = false;                                  // galima geriau?
 
-    static ExecutorService executor = Executors.newFixedThreadPool(4);
+    public static ExecutorService executor = Executors.newFixedThreadPool(4);
 
     public MainJFrame() {
+        /**
+         * 
+         */
+        
         userManager = UserManagerFactory.getUserManager();
         initComponents();
         pList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -66,7 +77,7 @@ public class MainJFrame extends javax.swing.JFrame {
         }
     }
 
-    private void login() {
+    private void login(){
         mainPane.getRootPane().setDefaultButton(pAddButton);
         CardLayout card = (CardLayout) getContentPane().getLayout();
         card.show(getContentPane(), "card6");
@@ -85,6 +96,7 @@ public class MainJFrame extends javax.swing.JFrame {
     }
 
     private void updateStats() {
+        userManager.writeDataToDisk();
         statsUsn.setText(currUser.getUsername());
         statsMostCom.setText(currUser.getMost(true));
         statsMostSpent.setText(currUser.getMost(false));

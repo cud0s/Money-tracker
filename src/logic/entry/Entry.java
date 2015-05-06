@@ -3,10 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package MoneyTracker;
+package logic.entry;
 
+import gsonClasses.GsonFoodSearch;
+import gsonClasses.GsonFoodReport;
 import com.google.gson.Gson;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.*;
@@ -18,7 +21,7 @@ import java.util.Scanner;
  *
  * @author slvai_000
  */
-public abstract class Entry implements Runnable {
+public abstract class Entry implements Runnable, Serializable{
 
     protected final int price;
     protected LocalDate inputDate;
@@ -29,33 +32,66 @@ public abstract class Entry implements Runnable {
     private final String[] textField = new String[11];
     private final String name;
 
+    /**
+     * 
+     * @return price 
+     */
     public abstract int getPrice();
 
+    /**
+     * 
+     * @return single string with name of type, for example "Loan" or "Expenditure" 
+     */
     public abstract String getType();
 
+    /**
+     * 
+     * @return Name + "  " + type + ": " + price 
+     */
     @Override
     public String toString() {
         String type = "Loan";
-        return this.getName() + this.getType() + ": " + this.getPrice();
+        return this.getName()+ "  " + this.getType() + ": " + this.getPrice();
     }
 
+    /**
+     * updates details
+     */
     @Override
     public void run() {
         updateDetails();
     }
-
+    
+    /**
+     * 
+     * @return name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * 
+     * @return string ndbno (usda database food number)
+     */
     public String getNdbno() {
         return ndbno;
     }
 
+    /**
+     * 
+     * @return LocalDate date, when entry was added
+     */
     public LocalDate getInputDate() {
         return inputDate;
     }
 
+    /**
+     * 
+     * @return String[11] each even number indicates text should be displayed on
+     * left side and subsequent value should be displayed side by side on the 
+     * right
+     */
     public String[] getDetails() {
         System.out.println("get details");
         GsonFoodReport.GsonReport.GsonFood.GsonNutrients nutrient = null;
@@ -190,13 +226,18 @@ public abstract class Entry implements Runnable {
             //Logger.getLogger(Expenditure.class.getName()).log(Level.SEVERE, null, ex);
         }
         GsonFoodReport gsonFoodReport = gson.fromJson(fileData, GsonFoodReport.class);
-        System.out.println(gsonFoodReport.report.type);
-        System.out.println(gsonFoodReport);
+      //  System.out.println(gsonFoodReport.report.type);
+        //System.out.println(gsonFoodReport);
         for (GsonFoodReport.GsonReport.GsonFood.GsonNutrients nutrient : gsonFoodReport.report.getFood().getNutrients()) {
             nutrientData.put(nutrient.getNutrientId(), nutrient);
         }
     }
-
+    
+    /**
+     * 
+     * @param inName name
+     * @param inPrice price
+     */
     public Entry(String inName, int inPrice) {
         name = inName;
         price = inPrice;

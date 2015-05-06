@@ -3,17 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package MoneyTracker;
+package gsonClasses;
+
+import java.io.Serializable;
 
 /**
  *
  * @author slvai_000
  */
-public class GsonFoodReport {
+public class GsonFoodReport implements Serializable{
 
-    GsonReport report;
+    public GsonReport report;
 
-    public static class GsonReport {
+    public static class GsonReport implements Serializable{
 
         public String sr;
         public String type;
@@ -23,13 +25,13 @@ public class GsonFoodReport {
             return food;
         }
 
-        public static class GsonFood {
+        public static class GsonFood implements Serializable{
 
             private String ndbno;
             private String name;
             private GsonNutrients[] nutrients;
 
-            public static class GsonNutrients {
+            public static class GsonNutrients implements Serializable{
 
                 private String nutrient_id;
                 private String name;
@@ -54,7 +56,7 @@ public class GsonFoodReport {
                     return value;
                 }
 
-                public static class GsonMeasures {
+                public static class GsonMeasures implements Serializable{
 
                     private String label;
                     private double eqv;
