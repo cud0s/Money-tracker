@@ -15,7 +15,7 @@ import java.util.HashMap;
 public class UserManager {
 
     private HashMap users;
-    private FileIO fileIO;
+    private final FileIO fileIO;
 
     /**
      * Registers user with user manager
@@ -84,6 +84,5 @@ public class UserManager {
         if (users == null) {
             users = new HashMap();
         }
-        //FileWriter fileWriter = new FileWriter("mt");
     }
 }
