@@ -5,13 +5,10 @@
  */
 package logic.user;
 
-import logic.user.UserManager;
-
 /**
- *
+ * not really necessary, only needed for completing an assignment
  * @author slvai_000
  */
-//not really nessecarry, only needed for completing assignment
 public final class UserManagerFactory {
 
     public static UserManager getUserManager() {

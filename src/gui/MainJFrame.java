@@ -95,7 +95,11 @@ public class MainJFrame extends javax.swing.JFrame {
     }
 
     private void updateStats() {
-        userManager.writeDataToDisk();
+        try{
+            userManager.writeDataToDisk();
+        }catch(RuntimeException e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
         
         statsUsn.setText(currUser.getUsername());
         statsMostCom.setText(currUser.getMost(true));

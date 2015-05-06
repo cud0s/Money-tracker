@@ -6,7 +6,6 @@
 package logic.entry;
 
 import gui.MainJFrame;
-import logic.entry.Entry;
 import java.time.LocalDate;
 
 /**

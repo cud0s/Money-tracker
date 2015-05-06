@@ -64,9 +64,15 @@ public class UserManager {
         }
         throw new RuntimeException("Login unsuccessful, try again");
     }
-    
-    public void writeDataToDisk(){
+
+    /**
+     * Writes user data to disk
+     *
+     * @throws RuntimeException if write fails
+     */
+    public void writeDataToDisk() {
         fileIO.updateFile(users);
+
     }
 
     private Object addUser(ManagableUser newUser) {
@@ -80,7 +86,7 @@ public class UserManager {
 
     UserManager() {
         fileIO = new FileIO();
-        users = (HashMap)fileIO.getObjects();
+        users = (HashMap) fileIO.getObjects();
         if (users == null) {
             users = new HashMap();
         }

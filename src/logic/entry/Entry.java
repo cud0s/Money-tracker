@@ -5,8 +5,8 @@
  */
 package logic.entry;
 
-import gsonClasses.GsonFoodSearch;
-import gsonClasses.GsonFoodReport;
+import logic.entry.gsonClasses.GsonFoodSearch;
+import logic.entry.gsonClasses.GsonFoodReport;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.Serializable;

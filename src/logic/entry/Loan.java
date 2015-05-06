@@ -5,13 +5,12 @@
  */
 package logic.entry;
 
-import logic.entry.Income;
 import java.time.LocalDate;
 
 public class Loan extends Income {
 
-    private LocalDate returnDate;
-    private double mInterest;
+    private final LocalDate returnDate;
+    private final double mInterest;
     private double monthlyPay;
     private final static String type = "Loan";
 

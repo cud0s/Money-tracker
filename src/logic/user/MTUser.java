@@ -20,7 +20,7 @@ import java.util.ArrayList;
  */
 public class MTUser extends User {
 
-    private int age;
+    private final int age;
     private int budget;
     private final ArrayList<Entry> entries;
     private int totalFoodEntries = 0;

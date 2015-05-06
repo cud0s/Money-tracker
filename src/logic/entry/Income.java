@@ -5,8 +5,6 @@
  */
 package logic.entry;
 
-import logic.entry.Entry;
-
 /**
  *
  * @author slvai_000

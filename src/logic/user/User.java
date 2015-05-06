@@ -5,7 +5,6 @@
  */
 package logic.user;
 
-import logic.user.ManagableUser;
 import java.util.Arrays;
 
 /**
