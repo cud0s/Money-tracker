@@ -24,6 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.DefaultListModel;
 import javax.swing.ListSelectionModel;
+import programIO.TextIO;
 
 /**
  *
@@ -97,6 +98,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void updateStats() {
         userManager.writeDataToDisk();
+        
         statsUsn.setText(currUser.getUsername());
         statsMostCom.setText(currUser.getMost(true));
         statsMostSpent.setText(currUser.getMost(false));
