@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package logic.entry;
+package logic2.entry;
 
-import logic.entry.Income;
+import logic2.entry.Income;
 import java.time.LocalDate;
 
 public class Loan extends Income {

@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package MoneyTracker;
+package logic2.user;
 
+import logic2.user.ManagableUser;
 import java.util.Arrays;
 
 /**
@@ -26,7 +27,12 @@ public class User implements ManagableUser {
         //hashing and etc.
         return Arrays.equals(password, inputPsw);
     }
-
+    
+    /**
+     * 
+     * @param newUsername username 
+     * @param newPassword password
+     */
     public User(String newUsername, char[] newPassword) {
         username = new String();
         username = newUsername;

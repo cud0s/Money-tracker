@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package MoneyTracker;
+package logic2.user;
+
+import logic2.user.UserManager;
 
 /**
  *
@@ -13,11 +15,12 @@ package MoneyTracker;
 public final class UserManagerFactory {
 
     public static UserManager getUserManager() {
+        /**
+         * @return UserManager
+         */
         return new UserManager();
     }
 
     private UserManagerFactory() {
     }
-;
-
 }

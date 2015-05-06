@@ -5,13 +5,13 @@
  */
 package gui;
 
-import logic.entry.Entry;
-import logic.entry.Expenditure;
-import logic.entry.Income;
-import logic.entry.Loan;
-import logic.user.MTUser;
-import logic.user.UserManager;
-import logic.user.UserManagerFactory;
+import logic2.entry.Entry;
+import logic2.entry.Expenditure;
+import logic2.entry.Income;
+import logic2.entry.Loan;
+import logic2.user.MTUser;
+import logic2.user.UserManager;
+import logic2.user.UserManagerFactory;
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;

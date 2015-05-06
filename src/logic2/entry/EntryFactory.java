@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package logic.entry;
+package logic2.entry;
 
 import gui.MainJFrame;
-import logic.entry.Entry;
+import logic2.entry.Entry;
 import java.time.LocalDate;
 
 /**
