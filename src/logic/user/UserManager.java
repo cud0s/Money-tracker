@@ -76,15 +76,19 @@ public class UserManager {
     }
 
     private Object addUser(ManagableUser newUser) {
-        if (users.put(newUser.getUsername(), newUser) == null) {
-            fileIO.updateFile(users);
-            return newUser;
-        } else {
-            throw new RuntimeException("This username is not available");
+        if (fileIO.isIoActive()) {
+            throw new RuntimeException("An error has occured, please try again later");
+        }else{
+            if (users.put(newUser.getUsername(), newUser) == null) {
+                fileIO.updateFile(users);
+                return newUser;
+            } else {
+                throw new RuntimeException("This username is not available");
+            }
         }
     }
 
-    UserManager() {
+    public UserManager() {
         fileIO = new FileIO();
         users = (HashMap) fileIO.getObjects();
         if (users == null) {

@@ -47,6 +47,12 @@ public class FileIO implements Runnable {
         ioActive = false;
     }
     
+    
+
+    public boolean isIoActive() {
+        return ioActive;
+    }
+    
     /**
      * Writes to file using executor in MainJFrame
      * Uses only one thread

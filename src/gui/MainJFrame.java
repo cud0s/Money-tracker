@@ -11,7 +11,6 @@ import logic.entry.Income;
 import logic.entry.Loan;
 import logic.user.MTUser;
 import logic.user.UserManager;
-import logic.user.UserManagerFactory;
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -46,7 +45,7 @@ public class MainJFrame extends javax.swing.JFrame {
          * 
          */
         
-        userManager = UserManagerFactory.getUserManager();
+        userManager = new UserManager();
         initComponents();
         pList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         statsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
